@@ -5,18 +5,19 @@ import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
-export default TrendingMovies = ({ item }) => {
+export default TrendingMovies = ({ items }) => {
 	const navigation = useNavigation();
-	const handleClick = () => {
-		navigation.navigate('Movie', item);
+
+	const handleClick = (id) => {
+		navigation.navigate('Movie', { movieId: id });
 	};
 
 	return (
 		<View className="mb-8">
 			<Text className="text-white text-xl mx-4 mb-5">Trending</Text>
 			<Carousel
-				data={item}
-				renderItem={({ item }) => <MovieCard item={item} handleClick={handleClick} />}
+				data={items}
+				renderItem={({ item }) => <MovieCard items={item} handleClick={handleClick} />}
 				firstItem={1}
 				inactiveSlideOpacity={0.6}
 				sliderWidth={width}
@@ -27,17 +28,19 @@ export default TrendingMovies = ({ item }) => {
 	);
 };
 
-const MovieCard = ({ item, handleClick }) => {
+const MovieCard = ({ items, handleClick }) => {
 	return (
-		<TouchableOpacity onPress={() => handleClick(item)}>
-			<Image
-				source={require('../assets/images/avengersend.jpg')}
-				className="rounded-2xl"
-				style={{
-					width: width * 0.6,
-					height: height * 0.4,
-				}}
-			/>
-		</TouchableOpacity>
+		<View>
+			<TouchableOpacity onPress={() => handleClick(items.id)}>
+				<Image
+					source={items.image}
+					className="rounded-2xl"
+					style={{
+						width: width * 0.6,
+						height: height * 0.4,
+					}}
+				/>
+			</TouchableOpacity>
+		</View>
 	);
 };
